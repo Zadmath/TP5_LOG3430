@@ -4,7 +4,7 @@ class SimpleTasks(TaskSet):
     @task(1)
     def home(self):
         # Test the home route
-        self.client.get("/")
+        self.client.get("http://127.0.0.1:5000")
 
     @task(2)
     def fast(self):
@@ -26,6 +26,12 @@ class SimpleTasks(TaskSet):
         # Test the echo route
         payload = {"message": "Hello, Locust!"}
         self.client.post("/echo", json=payload)
+
+class HeavyUser(HttpUser):
+    tasks = [SimpleTasks]
+    wait_time = between(10, 20)  # Simulate a wait time between requests
+
+
 
 class SimpleUser(HttpUser):
     tasks = [SimpleTasks]
